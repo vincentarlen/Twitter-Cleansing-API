@@ -71,15 +71,26 @@ swagger = Swagger(app, template=swagger_template,config=swagger_config)
 @app.route('/text-processing', methods=['POST'])
 def text_processing():
 
-        text = request.form.get('text')
-        clean_text = preprocessing(text)
-        json_response = {
+    text = request.form.get('text')
+    clean_text = preprocessing(text)
+    json_response = {
         'status_code': 200,
         'description': "Teks yang sudah diproses",
         'data': clean_text,
-        }
-        response_data = jsonify(json_response)
-        return response_data
+    }
+    conn = sqlite3.connect('hasil/result.db')
+    cur = conn.cursor()
+
+    # create table if not exists
+    cur.execute('''CREATE TABLE IF NOT EXISTS cleaned_data (tweet VARCHAR)''')
+
+    # insert preprocessed tweets into table
+    cur.execute('''INSERT INTO cleaned_data (tweet) VALUES (?)''', (clean_text,))
+
+    conn.commit()
+    cur.close()
+    response_data = jsonify(json_response)
+    return response_data
 
 @swag_from("docs/text_processing_file.yml", methods=['POST'])
 @app.route('/text-processing-file', methods=['POST'])
