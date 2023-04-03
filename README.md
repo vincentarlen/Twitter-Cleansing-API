@@ -7,6 +7,7 @@ To get started with the Text Preprocessing API, follow these steps:
 2. Install the required packages by running pip install -r requirements.txt
 3. Start the API by running python Cleansing_API.py
 4. Navigate to http://localhost:5000/docs to access the Swagger documentation for the API
+5. Make sure the file to be cleaned is a csv file and has a column named 'text'
 
 ## ENDPOINTS
 
