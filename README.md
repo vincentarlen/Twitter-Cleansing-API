@@ -1,38 +1,32 @@
-# id-multi-label-hate-speech-and-abusive-language-detection
+# Text Preprocessing API
+This is a Flask-based API that provides text preprocessing capabilities. The API is designed to be used to clean raw text data such as tweets before being used for analysis or machine learning tasks
 
-## About this data
-Here we provide our dataset for multi-label hate speech and abusive language detection in the Indonesian Twitter. The main dataset can be seen at **re_dataset** with labels information as follows:
-* **HS** : hate speech label;
-* **Abusive** : abusive language label;
-* **HS_Individual** : hate speech targeted to an individual;
-* **HS_Group** : hate speech targeted to a group;
-* **HS_Religion** : hate speech related to religion/creed;
-* **HS_Race** : hate speech related to race/ethnicity;
-* **HS_Physical** : hate speech related to physical/disability;
-* **HS_Gender** : hate speech related to gender/sexual orientation;
-* **HS_Gender** : hate related to other invective/slander;
-* **HS_Weak** : weak hate speech;
-* **HS_Moderate** : moderate hate speech;
-* **HS_Strong** : strong hate speech.
+## Getting Started
+To get started with the Text Preprocessing API, follow these steps:
+1. Clone this repository to your local machine
+2. Install the required packages by running pip install -r requirements.txt
+3. Start the API by running python Cleansing_API.py
+4. Navigate to http://localhost:5000/docs to access the Swagger documentation for the API
 
-For each label, `1` means `yes` (tweets including that label), `0` mean `no` (tweets are not included in that label). 
+## ENDPOINTS
 
-Due to the Twitter's Terms of Service, we do not provide the tweet ID. All username and URL in this dataset are changed into USER and URL. 
+### POST /text-processing
+This endpoint accepts a text string as input and returns a cleaned version of the text.
 
-For text normalization in our experiment, we built typo and slang words dictionaries named **new_kamusalay.csv**, that contain two columns (first columns are the typo and slang words, and the second one is the formal words). Here the examples of mapping:
-* *beud --> banget*
-* *jgn --> jangan*
-* *loe --> kamu*
+### POST /text-processing-file
+This endpoint accepts a CSV file with a text column, preprocesses the tweets in the file, and stores the cleaned tweets in a SQLite database.
+#### RESPONSE
+A string indicating that the data has been cleaned and stored in the database.
 
-Furthermore, we also built abusive lexicon list named **abusive.csv** that can be used for feature extraction.
+## Preprocessing Steps
+The API performs the following preprocessing steps:
+1. Removes unnecessary characters such as URL, RT, USER, and emoji
+2. Removes punctuation
+3. Fixes spelling using new_kamusalay dictionary
 
-## More detail
-If you want to know how this dataset was build (include the explanation of crawling and annotation technique) and how we did our experiment in multi-label hate speech and abusive language detection in Indonesian language using this dataset, you can read our paper in here: https://www.aclweb.org/anthology/W19-3506.pdf.
-
-## How to cite us
-This dataset and the other resource can be used for free, but if you want to publish paper/publication using this dataset, please cite this publication:
-
-**Muhammad Okky Ibrohim and Indra Budi. 2019. Multi-label Hate Speech and Abusive Language Detection in Indonesian Twitter. In *ALW3: 3rd Workshop on Abusive Language Online, 46-57*.** (Every paper template may have different citation writting. For LaTex user, you can see **citation.bib**).
-
-## License
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+## Depedencies
+* Flask
+* Pandas
+* re
+* sqlite3
+* flasgger
